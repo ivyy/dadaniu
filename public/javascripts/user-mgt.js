@@ -7,29 +7,29 @@
         this.pagingList = function (paging) {
             return $http({
                 method: 'POST',
-                url: '/users/paging',
+                url: '/rest/users/paging',
                 data: paging
             })
         };
 
         this.addUser = function (user) {
-            return $http.post('/users', user)
+            return $http.post('/rest/users', user)
         };
 
         this.userList = function () {
-            return $http.get('/users')
+            return $http.get('/rest/users')
         };
 
         this.deleteUser = function (userId) {
-            return $http.delete('/users/' + userId)
+            return $http.delete('/rest/users/' + userId)
         }
 
         this.updateUser = function (user) {
-            return $http.put('/users/' + user.id, user)
+            return $http.put('/rest/users/' + user.id, user)
         }
     }]);
 
-    app.controller('userMgtCtrl', function ($scope, $modal, $log, userService) {
+    app.controller('userMgtCtrl', function ($scope, $uibModal, $log, userService) {
         $scope.users = [];
         $scope.displayed = [].concat($scope.users);
 
@@ -49,7 +49,7 @@
         }
 
         $scope.openEditUserModal = function (user) {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: 'editUserModal.html',
                 controller: 'editUserModalCtrl',
@@ -67,7 +67,7 @@
         }
 
         $scope.openAddUserModal = function () {
-            var modalInstance = $modal.open({
+            var modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: 'addUserModal.html',
                 controller: 'addUserModalCtrl',
@@ -109,33 +109,33 @@
 
     });
 
-    app.controller('addUserModalCtrl', function ($http, $scope, $modalInstance, userService, user) {
+    app.controller('addUserModalCtrl', function ($scope, $uibModalInstance, userService, user) {
 
         $scope.user = user;
 
         $scope.save = function () {
             userService.addUser($scope.user).success(function (user) {
-                $modalInstance.close(user);
+                $uibModalInstance.close(user);
             });
         }
 
         $scope.cancel = function () {
-            $modalInstance.dismiss('cancel')
+            $uibModalInstance.dismiss('cancel')
         }
     });
 
-    app.controller('editUserModalCtrl', function ($http, $scope, $modalInstance, userService, user) {
+    app.controller('editUserModalCtrl', function ($http, $scope, $uibModalInstance, userService, user) {
 
         $scope.user = user;
 
         $scope.save = function () {
             userService.updateUser($scope.user).success(function (user) {
-                $modalInstance.close(user);
+                $uibModalInstance.close(user);
             });
         }
 
         $scope.cancel = function () {
-            $modalInstance.dismiss('cancel')
+            $uibModalInstance.dismiss('cancel')
         }
     });
 

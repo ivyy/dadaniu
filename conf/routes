@@ -6,21 +6,35 @@
 #GET           /                    controllers.Application.index
 
 # Map static resources from the /public folder to the /assets URL path
-GET           /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)
+GET           /assets/*file                                   controllers.Assets.versioned(path="/public", file: Asset)
 
 
-# Users Management
+# Users Management Application routes
 
-GET           /usermgt             controllers.UserMgt.mainPage
+GET           /usermgt.html                                   controllers.UserApplication.mainPage
 
-GET           /users               controllers.UserMgt.usersList
+GET           /rest/users                                     controllers.UserApplication.usersList
 
-POST          /users/paging        controllers.UserMgt.usersPagingList
+POST          /rest/users/paging                              controllers.UserApplication.usersPagingList
 
-POST          /users               controllers.UserMgt.addUser
+POST          /rest/users                                     controllers.UserApplication.addUser
 
-DELETE        /users/:id           controllers.UserMgt.deleteUser(id:Long)
+DELETE        /rest/users/:id                                 controllers.UserApplication.deleteUser(id:Long)
 
-PUT           /users/:id           controllers.UserMgt.updateUser(id:Long)
+PUT           /rest/users/:id                                 controllers.UserApplication.updateUser(id:Long)
 
 
+#Stock Application routs
+GET           /rest/stock/:stockCode/:fromDate/:toDate        controllers.StockApplication.loadStockExchangeData(stockCode:String, fromDate:String, toDate:String)
+
+GET           /stockmgt.html                                  controllers.StockApplication.mainPage
+
+GET           /rest/stocks                                    controllers.StockApplication.stockList
+
+POST          /rest/stocks/paging                             controllers.StockApplication.stockPagingList
+
+POST          /rest/stocks                                    controllers.StockApplication.addStock
+
+DELETE        /rest/stocks/:code                              controllers.StockApplication.deleteStock(code:String)
+
+PUT           /rest/stocks/:code                              controllers.StockApplication.updateStock(code:String)

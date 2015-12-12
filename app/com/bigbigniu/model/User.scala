@@ -1,4 +1,4 @@
-package model
+package com.bigbigniu.model
 
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{JsPath, Reads, Writes}

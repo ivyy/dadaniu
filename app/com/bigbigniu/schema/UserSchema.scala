@@ -1,4 +1,4 @@
-package schema
+package com.bigbigniu.schema
 
 /**
  * User: bigfish
@@ -6,7 +6,7 @@ package schema
  * Time: 上午11:53
  */
 
-import model._
+import com.bigbigniu.model.User
 import slick.driver.JdbcProfile
 
 trait UserSchema {

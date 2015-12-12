@@ -2,35 +2,32 @@ package controllers
 
 import javax.inject.Inject
 
-import dto.PagingParam._
-import dto.{PagingParam, PagingResponse}
-import model._
+import com.bigbigniu.dto.PagingParam._
+import com.bigbigniu.dto.PagingResponse._
+import com.bigbigniu.dto.{PagingParam, PagingResponse}
+import com.bigbigniu.model.User
+import com.bigbigniu.model.User._
+import com.bigbigniu.schema.UserSchema
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfig}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.libs.functional.syntax._
 import play.api.libs.json._
 import play.api.mvc.{Action, BodyParsers, Controller}
-import schema.UserSchema
 import slick.driver.JdbcProfile
-
-import PagingResponse._
-import User._
-
-import scala.concurrent.Await
 
 /**
  * User: bigfish
  * Date: 15-10-6
  * Time: 下午1:26
  */
-class UserMgt @Inject()(dbConfigProvider: DatabaseConfigProvider) extends Controller
-with UserSchema with HasDatabaseConfig[JdbcProfile] {
+class UserApplication @Inject()(dbConfigProvider: DatabaseConfigProvider)
+  extends Controller with UserSchema with HasDatabaseConfig[JdbcProfile] {
 
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
   import driver.api._
 
   val Users = TableQuery[UserTable]
+
   /*
     returns the main user management page
    */
@@ -40,8 +37,8 @@ with UserSchema with HasDatabaseConfig[JdbcProfile] {
 
   def usersList = Action.async {
     implicit request => {
-      dbConfig.db.run(Users.result).map(res =>
-        Ok(Json.toJson(res.toList))
+      dbConfig.db.run(Users.result).map(result =>
+        Ok(Json.toJson(result.toList))
       )
     }
   }
@@ -50,7 +47,7 @@ with UserSchema with HasDatabaseConfig[JdbcProfile] {
     implicit request => {
       val pagingParam = request.body.validate[PagingParam].getOrElse(PagingParam.DEFAULT)
 
-      var newPaging  = pagingParam
+      var newPaging = pagingParam
 
       val future = dbConfig.db.run(Users.length.result)
 

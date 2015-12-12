@@ -50,6 +50,7 @@
     }
 
     @dashboard("User Management", scripts) {
+
         <div id="user-mgt" ng-app="userMgtApp" ng-controller="userMgtCtrl">
             <div class="buttonbar row">
                 <button type="button" class="btn btn-sm btn-success" ng-click="openAddUserModal()">
@@ -86,7 +87,7 @@
                 <table st-table="displayed" st-safe-src="users" class="table table-bordered user-list">
                     <thead>
                         <tr>
-                            <td></td>
+                            <th></th>
                             <th st-sort="id">ID</th>
                             <th st-sort="name">Name</th>
                             <th st-sort="password">Password</th>
