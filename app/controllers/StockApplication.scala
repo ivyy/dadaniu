@@ -24,11 +24,11 @@ import scala.concurrent.duration._
 class StockApplication @Inject()(cache: CacheApi, dbConfigProvider: DatabaseConfigProvider)
   extends Controller with StockSchema with HasDatabaseConfig[JdbcProfile] {
 
-  val dbConfig = dbConfigProvider.get[JdbcProfile]
-
   import driver.api._
 
   val Stocks = TableQuery[StockTable]
+
+  val dbConfig = dbConfigProvider.get[JdbcProfile]
 
 
   def loadStockExchangeData(stockCode: String, fromDate: String, toDate: String) = Action {

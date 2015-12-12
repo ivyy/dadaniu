@@ -25,7 +25,6 @@ PUT           /rest/users/:id                                 controllers.UserAp
 
 
 #Stock Application routs
-GET           /rest/stock/:stockCode/:fromDate/:toDate        controllers.StockApplication.loadStockExchangeData(stockCode:String, fromDate:String, toDate:String)
 
 GET           /stockmgt.html                                  controllers.StockApplication.mainPage
 
@@ -38,3 +37,18 @@ POST          /rest/stocks                                    controllers.StockA
 DELETE        /rest/stocks/:code                              controllers.StockApplication.deleteStock(code:String)
 
 PUT           /rest/stocks/:code                              controllers.StockApplication.updateStock(code:String)
+
+#Stock exchange data routes
+GET           /rest/stock/:stockCode/:fromDate/:toDate        controllers.StockApplication.loadStockExchangeData(stockCode:String, fromDate:String, toDate:String)
+
+# Plate Application routes
+GET           /platemgt.html                                  controllers.PlateApplication.mainPage
+
+GET           /rest/plates                                    controllers.PlateApplication.plateList
+
+POST          /rest/plates                                    controllers.PlateApplication.addPlate
+
+DELETE        /rest/plates/:id                                controllers.PlateApplication.deletePlate(id:Long)
+
+PUT           /rest/plates/:id                                controllers.PlateApplication.updatePlate(id:Long)
+
