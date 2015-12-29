@@ -5,50 +5,15 @@
 # Home page
 #GET           /                    controllers.Application.index
 
-# Map static resources from the /public folder to the /assets URL path
-GET           /assets/*file                                   controllers.Assets.versioned(path="/public", file: Asset)
-
-
-# Users Management Application routes
-
-GET           /usermgt.html                                   controllers.UserApplication.mainPage
-
-GET           /rest/users                                     controllers.UserApplication.usersList
-
-POST          /rest/users/paging                              controllers.UserApplication.usersPagingList
-
-POST          /rest/users                                     controllers.UserApplication.addUser
-
-DELETE        /rest/users/:id                                 controllers.UserApplication.deleteUser(id:Long)
-
-PUT           /rest/users/:id                                 controllers.UserApplication.updateUser(id:Long)
-
+# Security routes
+->         /security            security.Routes
 
 #Stock Application routs
+->         /stock               stock.Routes
 
-GET           /stockmgt.html                                  controllers.StockApplication.mainPage
+->         /common              common.Routes
 
-GET           /rest/stocks                                    controllers.StockApplication.stockList
+->         /wechat              wechat.Routes
 
-POST          /rest/stocks/paging                             controllers.StockApplication.stockPagingList
-
-POST          /rest/stocks                                    controllers.StockApplication.addStock
-
-DELETE        /rest/stocks/:code                              controllers.StockApplication.deleteStock(code:String)
-
-PUT           /rest/stocks/:code                              controllers.StockApplication.updateStock(code:String)
-
-#Stock exchange data routes
-GET           /rest/stock/:stockCode/:fromDate/:toDate        controllers.StockApplication.loadStockExchangeData(stockCode:String, fromDate:String, toDate:String)
-
-# Plate Application routes
-GET           /platemgt.html                                  controllers.PlateApplication.mainPage
-
-GET           /rest/plates                                    controllers.PlateApplication.plateList
-
-POST          /rest/plates                                    controllers.PlateApplication.addPlate
-
-DELETE        /rest/plates/:id                                controllers.PlateApplication.deletePlate(id:Long)
-
-PUT           /rest/plates/:id                                controllers.PlateApplication.updatePlate(id:Long)
-
+# Map static resources from the /public folder to the /assets URL path
+GET        /assets/*file        controllers.Assets.versioned(path="/public", file)

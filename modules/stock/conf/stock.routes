@@ -1,0 +1,29 @@
+GET           /stockmgt.html                              controllers.stock.StockApplication.mainPage
+
+GET           /stocks                                     controllers.stock.StockApplication.stockList
+
+POST          /stocks/paging                              controllers.stock.StockApplication.stockPagingList
+
+POST          /stocks                                     controllers.stock.StockApplication.addStock
+
+DELETE        /stocks/:code                               controllers.stock.StockApplication.deleteStock(code:String)
+
+PUT           /stocks/:code                               controllers.stock.StockApplication.updateStock(code:String)
+
+#Stock exchange data routes
+GET           /stocks/:stockCode/:fromDate/:toDate        controllers.stock.StockApplication.loadStockExchangeData(stockCode:String, fromDate:String, toDate:String)
+
+# Plate Application routes
+GET           /platemgt.html                              controllers.stock.PlateApplication.mainPage
+
+GET           /plates                                     controllers.stock.PlateApplication.plateList
+
+POST          /plates                                     controllers.stock.PlateApplication.addPlate
+
+DELETE        /plates/:id                                 controllers.stock.PlateApplication.deletePlate(id:Long)
+
+PUT           /plates/:id                                 controllers.stock.PlateApplication.updatePlate(id:Long)
+
+GET           /assets/*file                               controllers.stock.Assets.at(path="/public/lib/stock", file)
+
+

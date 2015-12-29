@@ -1,0 +1,13 @@
+GET           /usermgt.html        controllers.security.UserApplication.mainPage
+
+GET           /users               controllers.security.UserApplication.usersList
+
+POST          /users/paging        controllers.security.UserApplication.usersPagingList
+
+POST          /users               controllers.security.UserApplication.addUser
+
+DELETE        /users/:id           controllers.security.UserApplication.deleteUser(id:Long)
+
+PUT           /users/:id           controllers.security.UserApplication.updateUser(id:Long)
+
+GET           /assets/*file        controllers.security.Assets.at(path="/public/lib/security", file)
