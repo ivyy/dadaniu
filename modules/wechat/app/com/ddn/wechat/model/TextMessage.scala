@@ -9,6 +9,6 @@ package com.ddn.wechat.model
 case class TextMessage(toUserName: String,
                        fromUserName: String,
                        createTime: Long,
-                       msgType: String,
+                       messageType: String,
                        content: String,
-                       msgId: String) extends BaseWechatMessage(toUserName, fromUserName, createTime, msgType)
+                       msgId: String) extends BaseWechatMessage

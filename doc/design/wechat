@@ -1,0 +1,10 @@
+2015-12-27
+==========
+* The wechat module should support running multiple wechat application.
+  Each application can be start/stop/suspended by the user through rest service.
+
+* The wechat module should be reactive using akka actors. Each wechat application should have
+  its own daemon actor.
+
+* WechatClientActor: In charge of communication with tencent wechat server, like getting access token,
+  updating application site menu

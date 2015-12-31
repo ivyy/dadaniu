@@ -12,5 +12,5 @@ case class ScanSubscribedEventMessage(toUserName: String,
                                       event:String,
                                       eventKey:String,
                                       ticket:String)
-extends BaseWechatMessage(toUserName, fromUserName, createTime, messageType)
+extends BaseWechatMessage
 

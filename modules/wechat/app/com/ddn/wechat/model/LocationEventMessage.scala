@@ -10,4 +10,4 @@ case class LocationEventMessage(toUserName: String,
                                 createTime: Long,
                                 messageType: String, event: String,
                                 latitude: Double, longitude: Double, precision: Double)
-  extends BaseWechatMessage(toUserName, fromUserName, createTime, messageType)
+  extends BaseWechatMessage

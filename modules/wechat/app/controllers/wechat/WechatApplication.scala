@@ -1,65 +1,59 @@
 package controllers.wechat
 
-import com.ddn.wechat.client.WechatClient
-import com.ddn.wechat.server.{WechatMessageHandler, WechatMessageParser}
-import org.apache.commons.codec.digest.DigestUtils
+import javax.inject._
+
+import akka.actor._
+import akka.pattern.ask
+import akka.util.Timeout
+import com.ddn.wechat.actor.{WechatAppActor, WechatDaemonActor}
+import com.ddn.wechat.model.BaseWechatResponse
+import com.ddn.wechat.server.{DummyWechatMessageHandler, WechatMessageParser}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.libs.json._
 import play.api.mvc.{Action, BodyParsers, Controller}
 
 import scala.concurrent.Future
+import scala.concurrent.duration._
 
 /**
  * User: bigfish
  * Date: 15-12-26
  * Time: 下午5:24
  */
-class WechatApplication extends Controller with WechatClient {
+@Singleton
+class WechatApplication @Inject()(@Named("wechat-daemon-actor") wechatDaemonActor: ActorRef)
+  extends Controller {
 
-  //this shoulbe be moved to a property file or database
-  private val TOKENS_MAP = Map("dadaniu" -> "dadaniu")
+  import WechatDaemonActor._
 
-  def validateWechatApp(wechatAppKey: String) = Action {
+
+  implicit val timeout: Timeout = 5 seconds
+
+  def validateWechatApp(wechatAppKey: String) = Action.async {
     implicit request =>
       val signature = request.getQueryString("signature").getOrElse("")
       val timestamp = request.getQueryString("timestamp").getOrElse("")
       val nonce = request.getQueryString("nonce").getOrElse("")
       val echoStr = request.getQueryString("echostr").getOrElse("")
-      val token = TOKENS_MAP(wechatAppKey)
-      if (WechatApplication.isValidWechatConnection(signature, timestamp, nonce, token))
-        Ok(echoStr)
-      else
-        Ok("Validate Error")
+      val future = wechatDaemonActor ? ValidateWechatApp(wechatAppKey, signature, timestamp, nonce, echoStr)
+      future.mapTo[String].map(Ok(_))
   }
 
-  def getAccessToken(wechatAppKey: String) = Action {
-    Ok(AccessToken.value)
-  }
-
-  def getWechatServerIpList(wechatAppKey: String) = Action {
-    Ok(Json.toJson(getCallbackIpList))
-  }
-
-  def handleMessage(wechatAppKey: String) = Action.async(BodyParsers.parse.xml) {
+  def handleMessage(internalWechatAppName: String) = Action.async(BodyParsers.parse.xml) {
 
     implicit request => {
       val message = WechatMessageParser.parse(request.body)
       println("\n received message\n" + message)
-      val wechatResponse = WechatMessageHandler.handle(message).toXml
-      println("\n response with\n" + wechatResponse)
-      (Future {
-        wechatResponse
-      }).map(Ok(_))
+      val future = wechatDaemonActor ? HandleMessage(internalWechatAppName, message)
+      future.mapTo[BaseWechatResponse].map(response => Ok(response.toXml))
     }
   }
-}
 
-object WechatApplication {
-
-  def isValidWechatConnection(signature: String, timestamp: String, nonce: String, token: String) = {
-    val str = Array(token, timestamp, nonce).sorted.mkString
-    DigestUtils.sha1Hex(str) == signature
+  def startWechatApp(internalWechatAppName: String) = Action.async {
+    (wechatDaemonActor ? StartWechatApp(internalWechatAppName)).mapTo[String].map(result => Ok(result))
   }
 
-  def wechatMsgCreateTime = System.currentTimeMillis / 1000
+  def shutdownWechatApp(internalWechatAppName: String) = Action.async {
+    (wechatDaemonActor ? ShutdownWechatApp(internalWechatAppName)).mapTo[String].map(result => Ok(result))
+  }
 }
+

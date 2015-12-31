@@ -13,5 +13,5 @@ case class LinkMessage(toUserName: String,
                        description: String,
                        url: String,
                        messageId: String)
-  extends BaseWechatMessage(toUserName, fromUserName, createTime, messageType)
+  extends BaseWechatMessage
 

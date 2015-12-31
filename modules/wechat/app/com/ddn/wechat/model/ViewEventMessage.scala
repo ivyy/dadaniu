@@ -9,4 +9,4 @@ case class ViewEventMessage(toUserName: String,
                              fromUserName: String,
                              createTime: Long,
                              messageType: String, event:String, eventKey:String)
-extends BaseWechatMessage(toUserName, fromUserName, createTime, messageType)
+extends BaseWechatMessage

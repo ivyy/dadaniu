@@ -8,4 +8,4 @@ package com.ddn.wechat.model
 case class VoiceMessage(toUserName:String, fromUserName:String,
                         createTime:Long, messageType:String,
                         mediaId:String, format:String, messageId:String, recognition:String)
-extends BaseWechatMessage(toUserName, fromUserName, createTime, messageType)
+extends BaseWechatMessage

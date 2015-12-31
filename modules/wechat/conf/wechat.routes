@@ -1,11 +1,18 @@
-GET         /assets/*file                controllers.wechat.Assets.at(path="/public/lib/wechat", file)
+GET         /assets/*file          controllers.wechat.Assets.at(path="/public/lib/wechat", file)
 
-GET         /app/:key                    controllers.wechat.WechatApplication.validateWechatApp(key:String)
+GET         /app/:key              controllers.wechat.WechatApplication.validateWechatApp(key:String)
 
-POST        /app/:key                    controllers.wechat.WechatApplication.handleMessage(key:String)
+POST        /app/:key              controllers.wechat.WechatApplication.handleMessage(key:String)
 
-GET         /app/:key/accesstoken        controllers.wechat.WechatApplication.getAccessToken(key:String)
+GET         /app/:key/start        controllers.wechat.WechatApplication.startWechatApp(key:String)
 
-GET         /app/:key/iplist             controllers.wechat.WechatApplication.getWechatServerIpList(key:String)
+GET         /app/:key/stop         controllers.wechat.WechatApplication.shutdownWechatApp(key:String)
+
+
+
+
+
+
+
 
 

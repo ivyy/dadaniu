@@ -9,4 +9,4 @@ case class UnSubscribeEventMessage(toUserName: String,
                                  fromUserName: String,
                                  createTime: Long,
                                  messageType: String, event:String)
-extends BaseWechatMessage(toUserName, fromUserName, createTime, messageType)
+extends BaseWechatMessage

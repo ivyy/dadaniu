@@ -8,4 +8,4 @@ package com.ddn.wechat.model
 case class ShortVideoMessage(toUserName: String, fromUserName: String,
                              createTime: Long, messageType: String, mediaId: String,
                              thumbMediaId: String, messageId: String)
-  extends BaseWechatMessage(toUserName, fromUserName, createTime, messageType)
+  extends BaseWechatMessage

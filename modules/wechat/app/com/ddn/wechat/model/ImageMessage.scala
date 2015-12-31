@@ -8,4 +8,4 @@ package com.ddn.wechat.model
 case class ImageMessage(toUserName: String, fromUserName: String,
                         createTime: Long, messageType: String,
                         pictureUrl: String, mediaId: String, messageId: String)
-  extends BaseWechatMessage(toUserName, fromUserName, createTime, messageType)
+  extends BaseWechatMessage

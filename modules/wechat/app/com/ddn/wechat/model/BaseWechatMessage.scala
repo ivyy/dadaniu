@@ -5,4 +5,9 @@ package com.ddn.wechat.model
  * Date: 15-12-28
  * Time: 上午11:14
  */
-abstract class BaseWechatMessage(toUserName:String, fromUserName:String, createTime:Long, messageType:String)
+abstract class BaseWechatMessage {
+  def toUserName:String
+  def fromUserName:String
+  def createTime:Long
+  def messageType:String
+}

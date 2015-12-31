@@ -6,4 +6,4 @@ package com.ddn.wechat.model
  * Time: 下午12:03
  */
 case class UnknownWechatMessage(toUserName:String, fromUserName:String, messageType:String, createTime:Long)
-  extends BaseWechatMessage(toUserName, fromUserName, createTime, messageType)
+  extends BaseWechatMessage
