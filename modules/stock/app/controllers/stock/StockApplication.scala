@@ -1,11 +1,14 @@
 package controllers.stock
 
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
-import com.bigbigniu.stock.service.YahooStockDataService
 import com.ddn.common.dto.{PagingParam, PagingResponse}
-import com.ddn.stock.model.{Stock, YahooStockExchangeInfo}
+import com.ddn.stock.analyzer.ExchangeAnalyzer
+import com.ddn.stock.model.Stock
 import com.ddn.stock.schema.StockSchema
+import com.ddn.stock.service.StockExchangeService
 import play.api.cache._
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfig}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
@@ -13,15 +16,17 @@ import play.api.libs.json._
 import play.api.mvc._
 import slick.driver.JdbcProfile
 
-import scala.concurrent.duration._
-
 /**
  * User: bigfish
  * Date: 15-12-6
  * Time: 下午4:02
  */
-class StockApplication @Inject()(cache: CacheApi, dbConfigProvider: DatabaseConfigProvider)
+class StockApplication @Inject()(cache: CacheApi, dbConfigProvider: DatabaseConfigProvider,
+                                 stockExchangeService: StockExchangeService)
   extends Controller with StockSchema with HasDatabaseConfig[JdbcProfile] {
+
+  @Inject
+  var analyser:ExchangeAnalyzer = null
 
   import driver.api._
 
@@ -30,19 +35,38 @@ class StockApplication @Inject()(cache: CacheApi, dbConfigProvider: DatabaseConf
   val dbConfig = dbConfigProvider.get[JdbcProfile]
 
 
-  def loadStockExchangeData(stockCode: String, fromDate: String, toDate: String) = Action {
-
-    val exchangeDataList = cache.getOrElse[List[YahooStockExchangeInfo]](stockCode, 1.minutes) {
-      YahooStockDataService.loadFromYahoo(stockCode, fromDate, toDate)
+  def loadStockExchangeData(stockCode: String, from: Option[String], to: Option[String]) = Action {
+    if (from.isEmpty || to.isEmpty) {
+      Ok(Json.toJson(stockExchangeService.all(stockCode)))
+    } else {
+      val fromDate = LocalDate.parse(from.get, DateTimeFormatter.ofPattern("yyyyMMdd"))
+      val toDate = LocalDate.parse(to.get, DateTimeFormatter.ofPattern("yyyyMMdd"))
+      Ok(Json.toJson(stockExchangeService.slice(stockCode, fromDate, toDate)))
     }
 
-    Ok(Json.toJson(exchangeDataList))
+  }
+
+  def simpleMovingAverage(stockCode:String, days:Int, range:Int) = Action {
+    implicit request =>
+      val array = analyser.simpleMovingAverage(stockCode, days)(range)
+      Ok(Json.toJson(array))
+  }
+
+  def weightedMovingAverage(stockCode:String, days:Int, range:Int) = Action {
+    implicit request =>
+      val array = analyser.weightedMovingAverage(stockCode, days)(range)
+      Ok(Json.toJson(array))
   }
 
 
   //return the main page
   def mainPage = Action {
     Ok(views.html.stockMgt())
+  }
+
+  //return the chart page
+  def stockChart = Action {
+    Ok(views.html.stockChart())
   }
 
   def stockList = Action.async {

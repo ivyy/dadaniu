@@ -1,29 +1,36 @@
-GET           /stockmgt.html                              controllers.stock.StockApplication.mainPage
+GET           /stockmgt.html                               controllers.stock.StockApplication.mainPage
 
-GET           /stocks                                     controllers.stock.StockApplication.stockList
+GET           /stockchart.html                             controllers.stock.StockApplication.stockChart
 
-POST          /stocks/paging                              controllers.stock.StockApplication.stockPagingList
+GET           /stocks                                      controllers.stock.StockApplication.stockList
 
-POST          /stocks                                     controllers.stock.StockApplication.addStock
+POST          /stocks/paging                               controllers.stock.StockApplication.stockPagingList
 
-DELETE        /stocks/:code                               controllers.stock.StockApplication.deleteStock(code:String)
+POST          /stocks                                      controllers.stock.StockApplication.addStock
 
-PUT           /stocks/:code                               controllers.stock.StockApplication.updateStock(code:String)
+DELETE        /stocks/:code                                controllers.stock.StockApplication.deleteStock(code:String)
+
+PUT           /stocks/:code                                controllers.stock.StockApplication.updateStock(code:String)
 
 #Stock exchange data routes
-GET           /stocks/:stockCode/:fromDate/:toDate        controllers.stock.StockApplication.loadStockExchangeData(stockCode:String, fromDate:String, toDate:String)
+GET           /exchange/:stockCode                         controllers.stock.StockApplication.loadStockExchangeData(stockCode:String, from:Option[String], to:Option[String])
+
+GET           /exchange/:stockCode/sma/:days/:range        controllers.stock.StockApplication.simpleMovingAverage(stockCode:String, days:Int, range:Int)
+
+GET           /exchange/:stockCode/wma/:days/:range        controllers.stock.StockApplication.weightedMovingAverage(stockCode:String, days:Int, range:Int)
+
 
 # Plate Application routes
-GET           /platemgt.html                              controllers.stock.PlateApplication.mainPage
+GET           /platemgt.html                               controllers.stock.PlateApplication.mainPage
 
-GET           /plates                                     controllers.stock.PlateApplication.plateList
+GET           /plates                                      controllers.stock.PlateApplication.plateList
 
-POST          /plates                                     controllers.stock.PlateApplication.addPlate
+POST          /plates                                      controllers.stock.PlateApplication.addPlate
 
-DELETE        /plates/:id                                 controllers.stock.PlateApplication.deletePlate(id:Long)
+DELETE        /plates/:id                                  controllers.stock.PlateApplication.deletePlate(id:Long)
 
-PUT           /plates/:id                                 controllers.stock.PlateApplication.updatePlate(id:Long)
+PUT           /plates/:id                                  controllers.stock.PlateApplication.updatePlate(id:Long)
 
-GET           /assets/*file                               controllers.stock.Assets.at(path="/public/lib/stock", file)
+GET           /assets/*file                                controllers.stock.Assets.at(path="/public/lib/stock", file)
 
 

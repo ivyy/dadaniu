@@ -1,0 +1,12 @@
+@()
+
+@scripts = {
+    <script src="@controllers.common.routes.Assets.at("d3/d3.min.js")"></script>
+    <script>
+        d3.select("#maincontent").transition().style("background-color", "green");
+    </script>
+}
+
+@dashboard("D3", scripts) {
+    <h1>D3 Demo</h1>
+}

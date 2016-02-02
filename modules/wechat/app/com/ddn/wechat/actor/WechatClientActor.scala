@@ -31,7 +31,7 @@ object WechatClientActor {
 
   case class RefreshAccessTokenError(errCode: String, errMsg: String)
 
-  case object GetAccessToken
+  case object Initialize
 
 }
 
@@ -40,6 +40,8 @@ class WechatClientActor @Inject()(ws: WSClient, @Assisted("appId") appId:String,
   extends Actor {
 
   import WechatClientActor._
+
+  import context._
 
   private val APP_ID = "wx5a897dc176520b54"
   private val APP_SECRET = "9d62a4c300a319ae803709f81151ce73"
@@ -63,8 +65,7 @@ class WechatClientActor @Inject()(ws: WSClient, @Assisted("appId") appId:String,
 //    Await.result(futureResult, Duration.Inf)
 //  }
 
-  override def receive: Actor.Receive = {
-
+  def refreshAccessTokenOnly:Receive = {
     case RefreshAccessToken(appId, appSecret) =>
       val reply = ws.url(ACCESS_TOKEN_URL).get().map {
         response =>
@@ -75,6 +76,11 @@ class WechatClientActor @Inject()(ws: WSClient, @Assisted("appId") appId:String,
           }
       }
       sender() ! reply
+    case _ => println("TO be impleted")
+  }
+
+  override def receive: Actor.Receive = {
+    case Initialize => become(refreshAccessTokenOnly)
     case _ => println("receive unknow message")
   }
 }
