@@ -23,8 +23,7 @@ trait PlateSchema {
 
     def description = column[String]("DESCRIPTION")
 
-    def * = (code, shortName, description, id.?) <>
-      ((Plate.apply _).tupled, Plate.unapply _)
+    def * = (code, shortName, description, id.?) <> ((Plate.apply _).tupled, Plate.unapply _)
   }
 
 }

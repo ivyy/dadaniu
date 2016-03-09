@@ -3,7 +3,7 @@ name := """dadaniu"""
 lazy val commonSettings: Seq[Setting[_]] = Seq(
   organization := "com.dadaniu",
   version := "0.1",
-  scalaVersion := "2.11.6",
+  scalaVersion := "2.11.7",
   routesGenerator := InjectedRoutesGenerator,
   resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 )
@@ -38,7 +38,6 @@ lazy val stock = (project in file("modules") / "stock")
 libraryDependencies ++= Seq(
   cache,
   ws,
-  specs2 % Test,
   "mysql" % "mysql-connector-java" % "5.1.34",
   "com.typesafe.play" %% "play-slick" % "1.0.1",
   "com.typesafe.play" %% "play-slick-evolutions" % "1.0.1",

@@ -1,18 +1,18 @@
 package com.ddn.stock
 
-import com.bigbigniu.stock.service.YahooStockExchangeService
-import com.ddn.stock.feeder.{CachedYahooDataFeeder, Feeder}
-import com.ddn.stock.service.StockExchangeService
+import com.ddn.stock.feeder.{Feeder, YahooDataFeeder}
+import com.ddn.stock.service.ExchangeService
+import com.ddn.stock.service.impl.ExchangeServiceImpl
 import com.google.inject.AbstractModule
 
 /**
- * User: bigfish
- * Date: 16-1-31
- * Time: 下午12:55
+ * This is a PlayModule that is used to do dependency inject
+ *
+ *
  */
 class StockModule extends AbstractModule {
   override def configure(): Unit = {
-    bind(classOf[StockExchangeService]).to(classOf[YahooStockExchangeService])
-    bind(classOf[Feeder]).to(classOf[CachedYahooDataFeeder])
+    bind(classOf[ExchangeService]).to(classOf[ExchangeServiceImpl])
+    bind(classOf[Feeder]).to(classOf[YahooDataFeeder])
   }
 }

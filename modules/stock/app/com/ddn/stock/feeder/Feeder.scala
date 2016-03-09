@@ -1,13 +1,12 @@
 package com.ddn.stock.feeder
 
-import java.time.LocalDate
-import java.util.Date
+import java.sql.Date
 
-import com.ddn.stock.model.StockExchange
+import com.ddn.stock.model.Exchange
 
 trait Feeder {
 
-  def fetchAll(stockCode: String): Array[StockExchange]
+  def fetchAll(stockCode: String): Seq[Exchange]
 
-  def fetchSlice(stockCode: String, fromDate: LocalDate, toDate: LocalDate): Array[StockExchange]
+  def fetchFrom(stockCode: String, from: Date): Seq[Exchange]
 }

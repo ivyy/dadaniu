@@ -8,7 +8,7 @@ import com.ddn.common.dto.{PagingParam, PagingResponse}
 import com.ddn.stock.analyzer.ExchangeAnalyzer
 import com.ddn.stock.model.Stock
 import com.ddn.stock.schema.StockSchema
-import com.ddn.stock.service.StockExchangeService
+import com.ddn.stock.service.ExchangeService
 import play.api.cache._
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfig}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
@@ -22,7 +22,7 @@ import slick.driver.JdbcProfile
  * Time: 下午4:02
  */
 class StockApplication @Inject()(cache: CacheApi, dbConfigProvider: DatabaseConfigProvider,
-                                 stockExchangeService: StockExchangeService)
+                                 stockExchangeService: ExchangeService)
   extends Controller with StockSchema with HasDatabaseConfig[JdbcProfile] {
 
   @Inject
